@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "@/hooks/use-auth";
-import { upload } from "lucide-react";
+import { Upload } from "lucide-react";
 
 const formSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -165,7 +164,7 @@ export default function MemeUpload({ onSuccess }: { onSuccess: () => void }) {
           className="w-full"
         >
           {isSubmitting ? "Creating..." : "Create Meme"}
-          {!isSubmitting && <upload className="ml-2" />}
+          {!isSubmitting && <Upload className="ml-2" />}
         </Button>
       </form>
     </Form>
