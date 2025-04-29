@@ -5,28 +5,64 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Link } from "react-router-dom";
-import { useToast } from "@/components/ui/use-toast";
+import { Link, useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!agreedToTerms) {
+      toast({
+        title: "Please agree to terms",
+        description: "You must agree to the terms of service and privacy policy to continue.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      toast({
-        title: "This is a demo",
-        description: "No actual account creation occurs. This is just a frontend demonstration.",
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: name,
+          }
+        }
       });
-    }, 1500);
+
+      if (error) {
+        throw error;
+      }
+
+      toast({
+        title: "Account created!",
+        description: "Check your email for the confirmation link to complete your registration.",
+      });
+      
+      // Redirect to login page after successful signup
+      navigate('/login');
+    } catch (error: any) {
+      toast({
+        title: "Signup failed",
+        description: error.message || "There was an error creating your account.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -71,10 +107,15 @@ const SignUp = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
+                  minLength={6}
                 />
               </div>
               <div className="flex items-center space-x-2">
-                <Checkbox id="terms" />
+                <Checkbox 
+                  id="terms" 
+                  checked={agreedToTerms}
+                  onCheckedChange={(checked) => setAgreedToTerms(checked === true)}
+                />
                 <label
                   htmlFor="terms"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -103,7 +144,7 @@ const SignUp = () => {
         </CardContent>
         <CardFooter className="flex justify-center">
           <p className="text-xs text-center text-muted-foreground">
-            Note: This is a demo site. No real account creation is happening.
+            Create your account to upload and share memes with the community
           </p>
         </CardFooter>
       </Card>
