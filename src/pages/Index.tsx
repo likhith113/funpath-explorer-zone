@@ -1,6 +1,6 @@
 
 import { Link } from 'react-router-dom';
-import { ArrowRight, BookOpen, Image, FlashCard, Telegram } from 'lucide-react';
+import { ArrowRight, BookOpen, Image, BookText, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -19,13 +19,13 @@ const Index = () => {
       link: "/memes"
     },
     {
-      icon: <FlashCard className="h-8 w-8 text-funpath-purple" />,
+      icon: <BookText className="h-8 w-8 text-funpath-purple" />,
       title: "Flashcards",
       description: "Test your knowledge with interactive flashcards on key concepts.",
       link: "/flashcards"
     },
     {
-      icon: <Telegram className="h-8 w-8 text-funpath-blue" />,
+      icon: <MessageCircle className="h-8 w-8 text-funpath-blue" />,
       title: "Telegram Community",
       description: "Join a community of learners to share tips and get help.",
       link: "/telegram"

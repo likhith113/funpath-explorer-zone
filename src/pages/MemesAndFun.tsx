@@ -1,7 +1,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Telegram } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const memes = [
@@ -65,7 +65,7 @@ const MemesAndFun = () => {
         </p>
         <Button className="gap-2">
           <Link to="/telegram" className="flex items-center gap-2">
-            <Telegram className="h-4 w-4" />
+            <MessageCircle className="h-4 w-4" />
             Share Your Memes on Telegram
           </Link>
         </Button>
@@ -96,7 +96,7 @@ const MemesAndFun = () => {
         </p>
         <Button className="gap-2" asChild>
           <a href="https://t.me/Funpath970" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-            <Telegram className="h-4 w-4" />
+            <MessageCircle className="h-4 w-4" />
             Join Our Telegram Community
           </a>
         </Button>

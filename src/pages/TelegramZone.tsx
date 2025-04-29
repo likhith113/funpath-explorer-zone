@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Telegram, MessageCircle, Trophy, Share2 } from "lucide-react";
+import { MessageCircle, MessageSquare, Trophy, Share2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const TelegramZone = () => {
@@ -16,7 +16,7 @@ const TelegramZone = () => {
       {/* Main CTA */}
       <div className="max-w-4xl mx-auto bg-gradient-to-r from-funpath-purple to-funpath-blue rounded-2xl overflow-hidden shadow-xl mb-16">
         <div className="p-8 md:p-12 flex flex-col items-center text-white">
-          <Telegram className="h-20 w-20 mb-6" />
+          <MessageCircle className="h-20 w-20 mb-6" />
           <h2 className="text-2xl md:text-4xl font-bold mb-4 text-center">
             Connect with Data Science Enthusiasts
           </h2>
@@ -25,7 +25,7 @@ const TelegramZone = () => {
           </p>
           <Button size="lg" variant="secondary" className="gap-2" asChild>
             <a href="https://t.me/Funpath970" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-              <Telegram className="h-5 w-5" />
+              <MessageCircle className="h-5 w-5" />
               Join FunPath Community
             </a>
           </Button>
@@ -36,7 +36,7 @@ const TelegramZone = () => {
       <div className="grid md:grid-cols-3 gap-6 mb-16">
         <Card>
           <CardHeader>
-            <MessageCircle className="h-10 w-10 text-funpath-purple mb-4" />
+            <MessageSquare className="h-10 w-10 text-funpath-purple mb-4" />
             <CardTitle>Engage in Discussions</CardTitle>
             <CardDescription>
               Ask questions, share insights, and participate in data science discussions with peers.
@@ -94,7 +94,7 @@ const TelegramZone = () => {
       <div className="text-center">
         <Button size="lg" className="gap-2" asChild>
           <a href="https://t.me/Funpath970" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-            <Telegram className="h-5 w-5" />
+            <MessageCircle className="h-5 w-5" />
             Join Now
           </a>
         </Button>

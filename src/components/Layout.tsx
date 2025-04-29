@@ -5,12 +5,12 @@ import {
   Home,
   BookOpen,
   Image,
-  FlashCard,
+  BookText, // Replacing FlashCard with BookText
   LogIn,
   UserPlus,
   Menu,
   X,
-  Telegram
+  MessageCircle // Replacing Telegram with MessageCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -24,8 +24,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     { name: 'Home', href: '/', icon: <Home className="h-5 w-5" /> },
     { name: 'Concepts', href: '/concepts', icon: <BookOpen className="h-5 w-5" /> },
     { name: 'Memes', href: '/memes', icon: <Image className="h-5 w-5" /> },
-    { name: 'Telegram', href: '/telegram', icon: <Telegram className="h-5 w-5" /> },
-    { name: 'Flashcards', href: '/flashcards', icon: <FlashCard className="h-5 w-5" /> },
+    { name: 'Telegram', href: '/telegram', icon: <MessageCircle className="h-5 w-5" /> },
+    { name: 'Flashcards', href: '/flashcards', icon: <BookText className="h-5 w-5" /> },
   ];
 
   return (
