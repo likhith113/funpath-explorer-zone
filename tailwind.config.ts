@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,18 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				funpath: {
+					purple: '#8B5CF6',
+					'light-purple': '#D6BCFA',
+					'dark-purple': '#6E59A5',
+					blue: '#0EA5E9',
+					gray: '#8E9196',
+					'soft-green': '#F2FCE2',
+					'soft-yellow': '#FEF7CD',
+					'soft-orange': '#FEC6A1',
+					'soft-purple': '#E5DEFF',
+					'soft-blue': '#D3E4FD',
 				}
 			},
 			borderRadius: {
@@ -84,11 +97,22 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'flip': {
+					'0%, 100%': {
+						transform: 'rotateY(0deg)',
+						transformStyle: 'preserve-3d'
+					},
+					'50%': {
+						transform: 'rotateY(180deg)',
+						transformStyle: 'preserve-3d'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'flip': 'flip 1s ease-in-out'
 			}
 		}
 	},
