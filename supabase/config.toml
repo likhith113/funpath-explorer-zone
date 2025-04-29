@@ -1,1 +1,5 @@
+
 project_id = "akeicrdupksmfegurbgt"
+
+[storage.memes]
+public = true

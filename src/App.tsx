@@ -13,26 +13,29 @@ import Flashcards from "./pages/Flashcards";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Layout from "./components/Layout";
+import { AuthProvider } from "./hooks/use-auth";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout><Index /></Layout>} />
-          <Route path="/concepts" element={<Layout><ConceptExplorer /></Layout>} />
-          <Route path="/memes" element={<Layout><MemesAndFun /></Layout>} />
-          <Route path="/telegram" element={<Layout><TelegramZone /></Layout>} />
-          <Route path="/flashcards" element={<Layout><Flashcards /></Layout>} />
-          <Route path="/login" element={<Layout><Login /></Layout>} />
-          <Route path="/signup" element={<Layout><SignUp /></Layout>} />
-          <Route path="*" element={<Layout><NotFound /></Layout>} />
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout><Index /></Layout>} />
+            <Route path="/concepts" element={<Layout><ConceptExplorer /></Layout>} />
+            <Route path="/memes" element={<Layout><MemesAndFun /></Layout>} />
+            <Route path="/telegram" element={<Layout><TelegramZone /></Layout>} />
+            <Route path="/flashcards" element={<Layout><Flashcards /></Layout>} />
+            <Route path="/login" element={<Layout><Login /></Layout>} />
+            <Route path="/signup" element={<Layout><SignUp /></Layout>} />
+            <Route path="*" element={<Layout><NotFound /></Layout>} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
