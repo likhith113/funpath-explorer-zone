@@ -20,23 +20,24 @@ const Login = () => {
     setIsLoading(true);
     
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
-      if (error) {
-        throw error;
-      }
-
-      toast({
-        title: "Login successful!",
-        description: "Welcome back to FunPath",
-      });
+      if (error) throw error;
       
-      // Redirect to memes page after successful login
-      navigate('/memes');
+      if (data.user) {
+        toast({
+          title: "Login successful!",
+          description: "Welcome back to FunPath",
+        });
+        
+        // Redirect to memes page after successful login
+        navigate('/memes');
+      }
     } catch (error: any) {
+      console.error("Login error:", error);
       toast({
         title: "Login failed",
         description: error.message || "Please check your credentials and try again.",

@@ -30,10 +30,19 @@ const SignUp = () => {
       return;
     }
 
+    if (password.length < 6) {
+      toast({
+        title: "Password too short",
+        description: "Password must be at least 6 characters long.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
     
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -43,18 +52,18 @@ const SignUp = () => {
         }
       });
 
-      if (error) {
-        throw error;
-      }
-
-      toast({
-        title: "Account created!",
-        description: "Check your email for the confirmation link to complete your registration.",
-      });
+      if (error) throw error;
       
-      // Redirect to login page after successful signup
-      navigate('/login');
+      if (data.user) {
+        toast({
+          title: "Account created successfully!",
+          description: "Please check your email to confirm your account.",
+        });
+        navigate('/login');
+      }
+      
     } catch (error: any) {
+      console.error("Signup error:", error);
       toast({
         title: "Signup failed",
         description: error.message || "There was an error creating your account.",
