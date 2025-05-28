@@ -1,9 +1,1 @@
-
-project_id = "akeicrdupksmfegurbgt"
-
-[auth]
-site_url = "https://akeicrdupksmfegurbgt.lovable.app"
-additional_redirect_urls = ["https://localhost:5173", "https://localhost:3000"]
-
-[storage.memes]
-public = true
+project_id = "rvttiucbutigkqzdpblq"
