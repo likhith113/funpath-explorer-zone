@@ -5,28 +5,52 @@ import {
   Home,
   BookOpen,
   Image,
-  BookText, // Replacing FlashCard with BookText
+  BookText,
   LogIn,
   UserPlus,
   Menu,
   X,
-  MessageCircle // Replacing Telegram with MessageCircle
+  MessageCircle,
+  BarChart,
+  LogOut
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { useAuth } from '@/hooks/use-auth';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [signupOpen, setSignupOpen] = useState(false);
+  const { user } = useAuth();
+  const { toast } = useToast();
 
   const navItems = [
     { name: 'Home', href: '/', icon: <Home className="h-5 w-5" /> },
+    ...(user ? [{ name: 'Dashboard', href: '/dashboard', icon: <BarChart className="h-5 w-5" /> }] : []),
     { name: 'Concepts', href: '/concepts', icon: <BookOpen className="h-5 w-5" /> },
     { name: 'Memes', href: '/memes', icon: <Image className="h-5 w-5" /> },
     { name: 'Telegram', href: '/telegram', icon: <MessageCircle className="h-5 w-5" /> },
     { name: 'Flashcards', href: '/flashcards', icon: <BookText className="h-5 w-5" /> },
   ];
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      toast({
+        title: "Logged out successfully",
+        description: "See you next time!",
+      });
+    } catch (error) {
+      toast({
+        title: "Error logging out",
+        description: "Please try again",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -54,59 +78,73 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
           {/* Auth Buttons - Desktop */}
           <div className="hidden md:flex items-center gap-2">
-            <Dialog open={loginOpen} onOpenChange={setLoginOpen}>
-              <DialogTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-1">
-                  <LogIn className="h-4 w-4" />
-                  Login
+            {user ? (
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">
+                  Hello, {user.user_metadata?.first_name || user.email?.split('@')[0]}
+                </span>
+                <Button variant="outline" size="sm" onClick={handleLogout} className="gap-1">
+                  <LogOut className="h-4 w-4" />
+                  Logout
                 </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Login</DialogTitle>
-                  <DialogDescription>
-                    This is a placeholder login modal. No actual login happens.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="p-4">
-                  <p className="mb-4">Please use the Login page for a more detailed experience.</p>
-                  <div className="flex justify-end">
-                    <Button asChild>
-                      <Link to="/login" onClick={() => setLoginOpen(false)}>
-                        Go to Login Page
-                      </Link>
+              </div>
+            ) : (
+              <>
+                <Dialog open={loginOpen} onOpenChange={setLoginOpen}>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" size="sm" className="gap-1">
+                      <LogIn className="h-4 w-4" />
+                      Login
                     </Button>
-                  </div>
-                </div>
-              </DialogContent>
-            </Dialog>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Login</DialogTitle>
+                      <DialogDescription>
+                        This is a placeholder login modal. No actual login happens.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="p-4">
+                      <p className="mb-4">Please use the Login page for a more detailed experience.</p>
+                      <div className="flex justify-end">
+                        <Button asChild>
+                          <Link to="/login" onClick={() => setLoginOpen(false)}>
+                            Go to Login Page
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
 
-            <Dialog open={signupOpen} onOpenChange={setSignupOpen}>
-              <DialogTrigger asChild>
-                <Button size="sm" className="gap-1">
-                  <UserPlus className="h-4 w-4" />
-                  Sign Up
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Sign Up</DialogTitle>
-                  <DialogDescription>
-                    This is a placeholder signup modal. No actual registration happens.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="p-4">
-                  <p className="mb-4">Please use the Sign Up page for a more detailed experience.</p>
-                  <div className="flex justify-end">
-                    <Button asChild>
-                      <Link to="/signup" onClick={() => setSignupOpen(false)}>
-                        Go to Sign Up Page
-                      </Link>
+                <Dialog open={signupOpen} onOpenChange={setSignupOpen}>
+                  <DialogTrigger asChild>
+                    <Button size="sm" className="gap-1">
+                      <UserPlus className="h-4 w-4" />
+                      Sign Up
                     </Button>
-                  </div>
-                </div>
-              </DialogContent>
-            </Dialog>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Sign Up</DialogTitle>
+                      <DialogDescription>
+                        This is a placeholder signup modal. No actual registration happens.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="p-4">
+                      <p className="mb-4">Please use the Sign Up page for a more detailed experience.</p>
+                      <div className="flex justify-end">
+                        <Button asChild>
+                          <Link to="/signup" onClick={() => setSignupOpen(false)}>
+                            Go to Sign Up Page
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -134,22 +172,37 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 </Link>
               ))}
               <div className="flex flex-col gap-2 pt-2 border-t">
-                <Link 
-                  to="/login"
-                  className="flex items-center gap-2 text-sm font-medium py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <LogIn className="h-5 w-5" />
-                  Login
-                </Link>
-                <Link 
-                  to="/signup"
-                  className="flex items-center gap-2 text-sm font-medium py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <UserPlus className="h-5 w-5" />
-                  Sign Up
-                </Link>
+                {user ? (
+                  <button 
+                    onClick={() => {
+                      handleLogout();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="flex items-center gap-2 text-sm font-medium py-2 text-left"
+                  >
+                    <LogOut className="h-5 w-5" />
+                    Logout
+                  </button>
+                ) : (
+                  <>
+                    <Link 
+                      to="/login"
+                      className="flex items-center gap-2 text-sm font-medium py-2"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <LogIn className="h-5 w-5" />
+                      Login
+                    </Link>
+                    <Link 
+                      to="/signup"
+                      className="flex items-center gap-2 text-sm font-medium py-2"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <UserPlus className="h-5 w-5" />
+                      Sign Up
+                    </Link>
+                  </>
+                )}
               </div>
             </nav>
           </div>

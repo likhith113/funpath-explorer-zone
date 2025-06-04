@@ -12,6 +12,7 @@ import TelegramZone from "./pages/TelegramZone";
 import Flashcards from "./pages/Flashcards";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import Dashboard from "./pages/Dashboard";
 import Layout from "./components/Layout";
 import { AuthProvider } from "./hooks/use-auth";
 
@@ -26,6 +27,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Layout><Index /></Layout>} />
+            <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
             <Route path="/concepts" element={<Layout><ConceptExplorer /></Layout>} />
             <Route path="/memes" element={<Layout><MemesAndFun /></Layout>} />
             <Route path="/telegram" element={<Layout><TelegramZone /></Layout>} />
